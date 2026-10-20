@@ -3,7 +3,9 @@ Set-Location -LiteralPath $PSScriptRoot
 
 if (-not $env:JAVA_HOME) {
     $compiler = Get-Command javac -ErrorAction Stop
+    $ErrorActionPreference = 'Continue'
     $javaSettings = & java -XshowSettings:properties -version 2>&1 | Out-String
+    $ErrorActionPreference = 'Stop'
     if ($javaSettings -match 'java.home\s*=\s*([^\r\n]+)') {
         $env:JAVA_HOME = $Matches[1].Trim()
     }
